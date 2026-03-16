@@ -26,7 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
         tops: ['t-shirt', 'polo', 'long-sleeve-shirt', 'sweater', 'hoodie', 'cardigan', 'quarter-zip', 'sweatshirt', 'henley', 'shirt'],
         bottoms: ['jeans', 'pants', 'chinos', 'joggers', 'sweatpants'],
         outerwear: ['jacket', 'coat', 'blazer', 'shacket'],
-        footwear: ['sneakers', 'boots', 'loafers', 'oxford-shoes', 'sandals']
+        footwear: ['sneakers', 'boots', 'loafers', 'oxford-shoes', 'sandals'],
+        accessories: ['watch', 'belt', 'hat', 'cap', 'sunglasses', 'bag', 'wallet', 'tie', 'scarf', 'bracelet', 'necklace', 'ring']
     };
     
     // Image base path
@@ -222,7 +223,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 div.dataset.id = item.id;
                 div.dataset.category = item.category;
                 
-                div.innerHTML = `<img src="${imgBasePath}${item.image}" alt="${item.brand}">`;
+                div.innerHTML = `
+                    <img src="${imgBasePath}${item.image}" alt="${item.brand}">
+                    <div class="picker-item-info">
+                        <span class="picker-item-brand">${item.brand || 'Unknown'}</span>
+                        <span class="picker-item-color">
+                            <span class="color-dot" style="background-color: ${colorMap[item.color] || '#ccc'}"></span>
+                            ${item.color || ''}
+                        </span>
+                    </div>
+                `;
                 
                 div.addEventListener('dragstart', (e) => {
                     e.dataTransfer.setData('text/plain', JSON.stringify(item));

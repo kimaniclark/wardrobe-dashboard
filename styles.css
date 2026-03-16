@@ -405,19 +405,19 @@ body {
 
 .picker-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 12px;
     max-height: 500px;
     overflow-y: auto;
 }
 
 .picker-item {
-    aspect-ratio: 1;
     border-radius: var(--radius-sm);
     overflow: hidden;
     cursor: grab;
     border: 2px solid transparent;
     transition: all 0.2s ease;
+    background: var(--bg-card);
 }
 
 .picker-item:hover {
@@ -426,12 +426,36 @@ body {
 
 .picker-item img {
     width: 100%;
-    height: 100%;
+    aspect-ratio: 1;
     object-fit: cover;
 }
 
 .picker-item.dragging {
     opacity: 0.5;
+}
+
+.picker-item-info {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.picker-item-brand {
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.picker-item-color {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    color: var(--text-secondary);
+    text-transform: capitalize;
 }
 
 /* Saved Outfits */
