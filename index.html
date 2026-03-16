@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wardrobe Dashboard | Life Concierge</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <span class="logo-icon">👔</span>
+                <span class="logo-text">Wardrobe</span>
+            </div>
+            
+            <nav class="nav">
+                <a href="#" class="nav-item active" data-view="wardrobe">
+                    <span class="nav-icon">🗂️</span>
+                    <span>My Wardrobe</span>
+                </a>
+                <a href="#" class="nav-item" data-view="outfits">
+                    <span class="nav-icon">✨</span>
+                    <span>Outfit Builder</span>
+                </a>
+                <a href="#" class="nav-item" data-view="stats">
+                    <span class="nav-icon">📊</span>
+                    <span>Analytics</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-stats">
+                <h4>Quick Stats</h4>
+                <div class="stat-row">
+                    <span>Total Items</span>
+                    <span id="total-items">96</span>
+                </div>
+                <div class="stat-row">
+                    <span>Brands</span>
+                    <span id="total-brands">28</span>
+                </div>
+                <div class="stat-row">
+                    <span>Categories</span>
+                    <span id="total-categories">20</span>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Wardrobe View -->
+            <section id="wardrobe-view" class="view active">
+                <header class="view-header">
+                    <h1>My Wardrobe</h1>
+                    <p class="subtitle">96 items from 28 brands</p>
+                </header>
+                
+                <!-- Filters -->
+                <div class="filters">
+                    <div class="filter-group">
+                        <label>Category</label>
+                        <select id="filter-category">
+                            <option value="">All Categories</option>
+                            <optgroup label="Tops">
+                                <option value="t-shirt">T-Shirts</option>
+                                <option value="polo">Polos</option>
+                                <option value="long-sleeve-shirt">Long Sleeve Shirts</option>
+                                <option value="sweater">Sweaters</option>
+                                <option value="hoodie">Hoodies</option>
+                                <option value="cardigan">Cardigans</option>
+                                <option value="quarter-zip">Quarter Zips</option>
+                                <option value="sweatshirt">Sweatshirts</option>
+                                <option value="henley">Henleys</option>
+                                <option value="shirt">Dress Shirts</option>
+                            </optgroup>
+                            <optgroup label="Bottoms">
+                                <option value="jeans">Jeans</option>
+                                <option value="pants">Pants</option>
+                                <option value="chinos">Chinos</option>
+                                <option value="joggers">Joggers</option>
+                                <option value="sweatpants">Sweatpants</option>
+                            </optgroup>
+                            <optgroup label="Outerwear">
+                                <option value="jacket">Jackets</option>
+                                <option value="coat">Coats</option>
+                                <option value="blazer">Blazers</option>
+                                <option value="shacket">Shackets</option>
+                            </optgroup>
+                            <optgroup label="Footwear">
+                                <option value="sneakers">Sneakers</option>
+                                <option value="boots">Boots</option>
+                                <option value="loafers">Loafers</option>
+                                <option value="oxford-shoes">Oxford Shoes</option>
+                                <option value="sandals">Sandals</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Color</label>
+                        <select id="filter-color">
+                            <option value="">All Colors</option>
+                            <option value="black">Black</option>
+                            <option value="white">White</option>
+                            <option value="cream">Cream</option>
+                            <option value="gray">Gray</option>
+                            <option value="charcoal">Charcoal</option>
+                            <option value="navy">Navy</option>
+                            <option value="blue">Blue</option>
+                            <option value="olive">Olive</option>
+                            <option value="green">Green</option>
+                            <option value="beige">Beige</option>
+                            <option value="camel">Camel</option>
+                            <option value="brown">Brown</option>
+                            <option value="burgundy">Burgundy</option>
+                            <option value="coral">Coral</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Brand</label>
+                        <select id="filter-brand">
+                            <option value="">All Brands</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Style</label>
+                        <select id="filter-style">
+                            <option value="">All Styles</option>
+                            <option value="casual">Casual</option>
+                            <option value="smart-casual">Smart Casual</option>
+                            <option value="formal">Formal</option>
+                            <option value="athletic">Athletic</option>
+                            <option value="streetwear">Streetwear</option>
+                        </select>
+                    </div>
+                    
+                    <button id="clear-filters" class="btn-secondary">Clear Filters</button>
+                </div>
+                
+                <!-- Results count -->
+                <div class="results-info">
+                    <span id="results-count">Showing 96 items</span>
+                </div>
+                
+                <!-- Wardrobe Grid -->
+                <div id="wardrobe-grid" class="wardrobe-grid">
+                    <!-- Items populated by JS -->
+                </div>
+            </section>
+            
+            <!-- Outfit Builder View -->
+            <section id="outfits-view" class="view">
+                <header class="view-header">
+                    <h1>Outfit Builder</h1>
+                    <p class="subtitle">Drag items to create your perfect outfit</p>
+                </header>
+                
+                <div class="outfit-builder">
+                    <div class="outfit-canvas">
+                        <h3>Your Outfit</h3>
+                        <div class="outfit-slots">
+                            <div class="outfit-slot" data-slot="outerwear">
+                                <span class="slot-label">Outerwear</span>
+                                <div class="slot-drop" data-accept="jacket,coat,blazer,shacket"></div>
+                            </div>
+                            <div class="outfit-slot" data-slot="top">
+                                <span class="slot-label">Top</span>
+                                <div class="slot-drop" data-accept="t-shirt,polo,long-sleeve-shirt,sweater,hoodie,cardigan,quarter-zip,sweatshirt,henley,shirt"></div>
+                            </div>
+                            <div class="outfit-slot" data-slot="bottom">
+                                <span class="slot-label">Bottom</span>
+                                <div class="slot-drop" data-accept="jeans,pants,chinos,joggers,sweatpants"></div>
+                            </div>
+                            <div class="outfit-slot" data-slot="footwear">
+                                <span class="slot-label">Footwear</span>
+                                <div class="slot-drop" data-accept="sneakers,boots,loafers,oxford-shoes,sandals"></div>
+                            </div>
+                        </div>
+                        <div class="outfit-actions">
+                            <button id="save-outfit" class="btn-primary">Save Outfit</button>
+                            <button id="clear-outfit" class="btn-secondary">Clear</button>
+                            <button id="random-outfit" class="btn-secondary">🎲 Random</button>
+                        </div>
+                    </div>
+                    
+                    <div class="item-picker">
+                        <h3>Pick Items</h3>
+                        <div class="picker-filters">
+                            <select id="picker-category">
+                                <option value="">All Categories</option>
+                                <option value="tops">Tops</option>
+                                <option value="bottoms">Bottoms</option>
+                                <option value="outerwear">Outerwear</option>
+                                <option value="footwear">Footwear</option>
+                            </select>
+                        </div>
+                        <div id="picker-grid" class="picker-grid">
+                            <!-- Items populated by JS -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Saved Outfits -->
+                <div class="saved-outfits">
+                    <h3>Saved Outfits</h3>
+                    <div id="saved-outfits-grid" class="saved-outfits-grid">
+                        <p class="empty-state">No saved outfits yet. Create your first outfit above!</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Analytics View -->
+            <section id="stats-view" class="view">
+                <header class="view-header">
+                    <h1>Wardrobe Analytics</h1>
+                    <p class="subtitle">Insights into your style</p>
+                </header>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>By Category</h3>
+                        <div id="chart-category" class="chart"></div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h3>By Color</h3>
+                        <div id="chart-color" class="color-chart"></div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h3>Top Brands</h3>
+                        <div id="chart-brand" class="chart"></div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h3>Style Distribution</h3>
+                        <div id="chart-style" class="chart"></div>
+                    </div>
+                </div>
+                
+                <div class="insights">
+                    <h3>Wardrobe Insights</h3>
+                    <div class="insight-cards">
+                        <div class="insight-card">
+                            <span class="insight-icon">🎨</span>
+                            <h4>Color Palette</h4>
+                            <p>Your wardrobe is 78% neutrals (black, white, gray). Great for versatile mixing!</p>
+                        </div>
+                        <div class="insight-card">
+                            <span class="insight-icon">👔</span>
+                            <h4>Style Balance</h4>
+                            <p>Good mix of casual (68) and smart-casual (26) pieces. Consider adding more formal options.</p>
+                        </div>
+                        <div class="insight-card">
+                            <span class="insight-icon">💡</span>
+                            <h4>Wardrobe Gap</h4>
+                            <p>You have 14 jeans but only 3 dress pants. Consider balancing bottoms for formal occasions.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <!-- Item Detail Modal -->
+    <div id="item-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="modal-body">
+                <img id="modal-image" src="" alt="">
+                <div class="modal-info">
+                    <h2 id="modal-brand"></h2>
+                    <p id="modal-category"></p>
+                    <div class="modal-tags" id="modal-tags"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
