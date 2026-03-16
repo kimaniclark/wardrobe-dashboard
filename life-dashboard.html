@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Dashboard - Kimani Clark</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #f5f5f7;
+            color: #1d1d1f;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            color: #86868b;
+            font-size: 16px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e5e5e7;
+        }
+        
+        .card-icon {
+            font-size: 28px;
+            margin-right: 12px;
+        }
+        
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .metric {
+            margin-bottom: 16px;
+        }
+        
+        .metric-label {
+            font-size: 13px;
+            color: #86868b;
+            margin-bottom: 4px;
+        }
+        
+        .metric-value {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .metric-small {
+            font-size: 18px;
+        }
+        
+        .status-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #f5f5f7;
+        }
+        
+        .status-item:last-child {
+            border-bottom: none;
+        }
+        
+        .status-label {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        
+        .status-value {
+            font-size: 13px;
+            color: #86868b;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            background: #f5f5f7;
+            color: #1d1d1f;
+            margin-left: 8px;
+        }
+        
+        .badge-overdue {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .badge-pending {
+            background: #f0f4f8;
+            color: #e65100;
+        }
+        
+        .link-list {
+            list-style: none;
+        }
+        
+        .link-list li {
+            margin-bottom: 12px;
+        }
+        
+        .link-list a {
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .link-list a:hover {
+            text-decoration: underline;
+        }
+        
+        .venue-link {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        
+        .venue-link:hover {
+            background: #f5f5f7;
+        }
+        
+        .venue-icon {
+            margin-right: 8px;
+        }
+        
+        .goal-section {
+            background: #f5f5f7;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+        
+        .goal-title {
+            font-size: 13px;
+            color: #86868b;
+            margin-bottom: 8px;
+        }
+        
+        .goal-value {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background: #e5e5e7;
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #0066cc;
+            border-radius: 3px;
+            transition: width 0.3s;
+        }
+        
+        .city-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+        
+        .city-card {
+            background: #f5f5f7;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .city-name {
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .city-count {
+            font-size: 20px;
+            font-weight: 600;
+            color: #0066cc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Life Dashboard</h1>
+            <p class="subtitle">Last updated: March 11, 2026</p>
+        </header>
+        
+        <!-- Life Areas Overview - Grouped by Category -->
+        <div class="card" style="margin-bottom: 30px;">
+            <div style="margin-bottom: 20px;">
+                <h2 style="font-size: 24px; font-weight: 600; margin-bottom: 8px;">Life Areas Overview</h2>
+                <p style="color: #86868b; font-size: 14px;">10 categories • 20 areas of personal life management</p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
+                
+                <!-- STRATEGY -->
+                <div style="background: #f5f5f7; padding: 16px; border-radius: 10px;">
+                    <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; color: #86868b;">🎯 Strategy</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        <div style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; border: 2px solid #0066cc; color: #1d1d1f;">⏰ Time Management ✓</div>
+                    </div>
+                </div>
+                
+                <!-- BODY -->
+                <div style="background: #f5f5f7; padding: 16px; border-radius: 10px;">
+                    <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; color: #86868b;">💪 Body</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        <div style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; border: 2px solid #0066cc; color: #1d1d1f;">🩺 Health ✓</div>
+                        <div style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; border: 2px solid #0066cc; color: #1d1d1f;">🏋️ Fitness ✓</div>
+                    </div>
+                </div>
+                
+                <!-- MIND -->
+                <div style="background: #f5f5f7; padding: 16px; border-radius: 10px;">
+                    <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; color: #86868b;">🧠 Mind</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        <div style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; color: #86868b; border: 1px solid #e5e5e7;">❤️ Emotional Health</div>
+                        <div style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; color: #86868b; border: 1px solid #e5e5e7;">🎯 Vision & Purpose</div>
+                    </div>
+                </div>
+                
+                <!-- THINGS -->
+                <div style="background: #f5f5f7; padding: 16px; border-radius: 10px;">
+                    <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; color: #86868b;">📦 Things</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        <div style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; color: #1d1d1f; border: 2px solid #86868b;">🍽️ Food</div>
+                        <div style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; border: 2px solid #0066cc; color: #1d1d1f;">🏠 Home ✓</div>
+                        <div style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; border: 2px solid #0066cc; color: #1d1d1f;">🚗 Car ✓</div>
+                        <div style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; border: 2px solid #0066cc; color: #1d1d1f;">👔 Fashion ✓</div>
+                        <div style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; color: #86868b; border: 1px solid #e5e5e7;">💻 Technology</div>
+                    </div>
+                </div>
+                
+                <!-- PEOPLE -->
+                <div style="background: #f5f5f7; padding: 16px; border-radius: 10px;">
+                    <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; color: #86868b;">👥 People</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        <div style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; color: #86868b; border: 1px solid #e5e5e7;">💕 Relationships</div>
+                        <div style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; color: #86868b; border: 1px solid #e5e5e7;">🎉 Social</div>
+                    </div>
+                </div>
+                
+                <!-- JOY -->
+                <div style="background: #f5f5f7; padding: 16px; border-radius: 10px;">
+                    <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; color: #86868b;">🌟 Joy</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        <div style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; color: #86868b; border: 1px solid #e5e5e7;">🎮 Fun</div>
+                        <div style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; color: #86868b; border: 1px solid #e5e5e7;">😊 Lifestyle</div>
+                        <div style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; border: 2px solid #0066cc; color: #1d1d1f;">🎵 Entertainment ✓</div>
+                        <div style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; border: 2px solid #0066cc; color: #1d1d1f;">✈️ Travel ✓</div>
+                    </div>
+                </div>
+                
+                <!-- WEALTH -->
+                <div style="background: #f5f5f7; padding: 16px; border-radius: 10px;">
+                    <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; color: #86868b;">💰 Wealth</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        <div style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; color: #1d1d1f; border: 2px solid #86868b;">💵 Financial</div>
+                        <div style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; color: #86868b; border: 1px solid #e5e5e7;">💼 Business/Career</div>
+                    </div>
+                </div>
+                
+                <!-- CONNECTION -->
+                <div style="background: #f5f5f7; padding: 16px; border-radius: 10px;">
+                    <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; color: #86868b;">📡 Connection</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        <div style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; color: #86868b; border: 1px solid #e5e5e7;">📧 Communications</div>
+                        <div style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; color: #86868b; border: 1px solid #e5e5e7;">🌐 Online Presence</div>
+                    </div>
+                </div>
+                
+                <!-- GROWTH -->
+                <div style="background: #f5f5f7; padding: 16px; border-radius: 10px;">
+                    <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; color: #86868b;">📈 Growth</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        <div style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; color: #86868b; border: 1px solid #e5e5e7;">📚 Personal Development</div>
+                        <div style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; color: #86868b; border: 1px solid #e5e5e7;">💡 Innovation</div>
+                    </div>
+                </div>
+                
+                <!-- IMPACT -->
+                <div style="background: #f5f5f7; padding: 16px; border-radius: 10px;">
+                    <div style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; color: #86868b;">🌍 Impact</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        <div style="background: white; padding: 8px 12px; border-radius: 6px; font-size: 13px; color: #86868b; border: 1px solid #e5e5e7;">🤝 Contribution</div>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e5e7; display: flex; gap: 24px; font-size: 13px; flex-wrap: wrap; color: #86868b;">
+                <div><span style="color: #0066cc; font-weight: 600;">8</span> Built ✓</div>
+                <div><span style="color: #86868b; font-weight: 600;">2</span> Documented</div>
+                <div><span style="color: #86868b; font-weight: 600;">10</span> To Build</div>
+                <div style="margin-left: auto;">Progress: 36%</div>
+            </div>
+        </div>
+        
+        
+        <!-- Time Management Section - Entrepreneurial Time System -->
+        <div class="card" style="margin-bottom: 20px;">
+            <div class="card-header">
+                <span class="card-icon">⏰</span>
+                <div>
+                    <div class="card-title">Time - This Week</div>
+                    <div style="font-size: 13px; color: #86868b; margin-top: 2px;">Entrepreneurial Time System (Strategic Coach)</div>
+                </div>
+            </div>
+            
+            <!-- Current Week -->
+            <div style="margin-bottom: 20px;">
+                <div style="font-size: 14px; color: #86868b; margin-bottom: 12px;">Week of March 2-8, 2026</div>
+                
+                <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px;">
+                    <!-- Monday (TODAY) - BUFFER -->
+                    <div style="padding: 12px; border-radius: 8px; background: #f0f4f8; text-align: center; border: 2px solid #64748b;">
+                        <div style="font-size: 11px; color: #64748b; font-weight: 600; margin-bottom: 6px;">MON (TODAY)</div>
+                        <div style="font-size: 13px; font-weight: 600; margin-bottom: 4px;">Mar 2</div>
+                        <div style="font-size: 13px; font-weight: 600; color: #64748b;">⚙️ BUFFER</div>
+                    </div>
+                    
+                    <!-- Tuesday - BUFFER -->
+                    <div style="padding: 12px; border-radius: 8px; background: #f0f4f8; text-align: center; border: 2px solid #64748b;">
+                        <div style="font-size: 11px; color: #86868b; margin-bottom: 6px;">TUE</div>
+                        <div style="font-size: 13px; font-weight: 600; margin-bottom: 4px;">Mar 3</div>
+                        <div style="font-size: 13px; font-weight: 600; color: #64748b;">⚙️ BUFFER</div>
+                    </div>
+                    
+                    <!-- Wednesday - FOCUS -->
+                    <div style="padding: 12px; border-radius: 8px; background: #f3e5f5; text-align: center; border: 2px solid #7b1fa2;">
+                        <div style="font-size: 11px; color: #86868b; margin-bottom: 6px;">WED</div>
+                        <div style="font-size: 13px; font-weight: 600; margin-bottom: 4px;">Mar 4</div>
+                        <div style="font-size: 13px; font-weight: 600; color: #7b1fa2;">🎯 FOCUS</div>
+                    </div>
+                    
+                    <!-- Thursday - BUFFER -->
+                    <div style="padding: 12px; border-radius: 8px; background: #f0f4f8; text-align: center; border: 2px solid #64748b;">
+                        <div style="font-size: 11px; color: #86868b; margin-bottom: 6px;">THU</div>
+                        <div style="font-size: 13px; font-weight: 600; margin-bottom: 4px;">Mar 5</div>
+                        <div style="font-size: 13px; font-weight: 600; color: #64748b;">⚙️ BUFFER</div>
+                    </div>
+                    
+                    <!-- Friday - FOCUS -->
+                    <div style="padding: 12px; border-radius: 8px; background: #f3e5f5; text-align: center; border: 2px solid #7b1fa2;">
+                        <div style="font-size: 11px; color: #86868b; margin-bottom: 6px;">FRI</div>
+                        <div style="font-size: 13px; font-weight: 600; margin-bottom: 4px;">Mar 6</div>
+                        <div style="font-size: 13px; font-weight: 600; color: #7b1fa2;">🎯 FOCUS</div>
+                    </div>
+                    
+                    <!-- Saturday - FREE -->
+                    <div style="padding: 12px; border-radius: 8px; background: #e3f2fd; text-align: center; border: 2px solid #1976d2;">
+                        <div style="font-size: 11px; color: #86868b; margin-bottom: 6px;">SAT</div>
+                        <div style="font-size: 13px; font-weight: 600; margin-bottom: 4px;">Mar 7</div>
+                        <div style="font-size: 13px; font-weight: 600; color: #1976d2;">🏖️ FREE</div>
+                    </div>
+                    
+                    <!-- Sunday - FREE -->
+                    <div style="padding: 12px; border-radius: 8px; background: #e3f2fd; text-align: center; border: 2px solid #1976d2;">
+                        <div style="font-size: 11px; color: #86868b; margin-bottom: 6px;">SUN</div>
+                        <div style="font-size: 13px; font-weight: 600; margin-bottom: 4px;">Mar 8</div>
+                        <div style="font-size: 13px; font-weight: 600; color: #1976d2;">🏖️ FREE</div>
+                    </div>
+                </div>
+            </div>            
+            <!-- Screen Time Tracking -->
+            <div style="border-top: 1px solid #e5e5e7; padding-top: 20px; margin-top: 20px;">
+                <div style="font-size: 14px; font-weight: 600; margin-bottom: 16px;">📱 Screen Time - Last Week</div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+                    <!-- Total Screen Time -->
+                    <div style="background: #f5f5f7; padding: 16px; border-radius: 8px;">
+                        <div style="font-size: 12px; color: #86868b; margin-bottom: 4px;">Total Daily Average</div>
+                        <div style="font-size: 28px; font-weight: 600; color: #1d1d1f;">13h 53m</div>
+                        <div style="font-size: 11px; color: #86868b; margin-top: 4px;">Feb 23 - Mar 1, 2026</div>
+                    </div>
+                    
+                    <!-- Social Media Time -->
+                    <div style="background: #fef2f2; padding: 16px; border-radius: 8px; border: 2px solid #ef4444;">
+                        <div style="font-size: 12px; color: #86868b; margin-bottom: 4px;">Social Media Daily Avg</div>
+                        <div style="font-size: 28px; font-weight: 600; color: #ef4444;">5h 0m</div>
+                        <div style="font-size: 11px; color: #86868b; margin-top: 4px;">⚠️ 2x over goal</div>
+                    </div>
+                </div>
+                
+                <!-- Goal Progress -->
+                <div style="background: #fef2f2; padding: 14px; border-radius: 8px; margin-bottom: 12px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <div style="font-size: 13px; font-weight: 600; color: #dc2626;">🎯 Goal: Social Media <3h/day</div>
+                        <div style="font-size: 13px; font-weight: 600; color: #ef4444;">5h 0m / 3h 0m</div>
+                    </div>
+                    <div style="height: 8px; background: rgba(239, 68, 68, 0.2); border-radius: 4px; overflow: hidden;">
+                        <div style="height: 100%; width: 100%; background: linear-gradient(90deg, #ef4444, #f87171); border-radius: 4px;"></div>
+                    </div>
+                    <div style="font-size: 11px; color: #86868b; margin-top: 6px;">2h over target • ⬇️ 10% from last week • Top: Instagram 12h 56m, TikTok 9h 31m</div>
+                </div>
+                
+                <div style="margin-top: 12px; padding: 10px; background: #f5f5f7; border-radius: 6px; font-size: 11px; color: #86868b;">
+                    💡 <em>Updated every Monday with prior week's data from iPhone Screen Time</em>
+                </div>
+            </div>
+            
+            <!-- Bedtime Goal Tracking -->
+            <div style="border-top: 1px solid #e5e5e7; padding-top: 20px; margin-top: 20px;">
+                <div style="font-size: 14px; font-weight: 600; margin-bottom: 16px;">🌙 Bedtime Goal</div>
+                
+                <!-- Current vs Goal -->
+                <div style="background: #f5f5f7; padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <div>
+                            <div style="font-size: 12px; color: #86868b;">Avg. Bed Time (7 days)</div>
+                            <div style="font-size: 24px; font-weight: 600; color: #30d158;">12:34 AM</div>
+                        </div>
+                        <div style="font-size: 20px; color: #86868b;">→</div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 12px; color: #86868b;">Goal</div>
+                            <div style="font-size: 24px; font-weight: 600; color: #0066cc;">12:00 AM</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Progress Bar -->
+                    <div style="height: 8px; background: rgba(52, 199, 89, 0.2); border-radius: 4px; overflow: hidden; margin-bottom: 8px;">
+                        <div style="height: 100%; width: 95%; background: linear-gradient(90deg, #0066cc, #30d158); border-radius: 4px;"></div>
+                    </div>
+                    
+                    <div style="font-size: 11px; color: #86868b;">
+                        34 min from goal! • Regularity still "Poor" — focus on consistency
+                    </div>
+                </div>
+                
+                <!-- Note -->
+                <div style="padding: 10px; background: #fef3c7; border-radius: 6px; font-size: 11px; color: #92400e; border-left: 3px solid #f59e0b;">
+                    ⚠️ <em>Avg. rise time: 2:20 PM • High variability in sleep/wake times (see Rise app)</em>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Entertainment Section -->
+        <div class="card" style="margin-bottom: 20px;">
+            <div class="card-header">
+                <span class="card-icon">🎵</span>
+                <div>
+                    <div class="card-title">Entertainment</div>
+                </div>
+            </div>
+            
+            <div style="margin-bottom: 24px;">
+                <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">Artist Tours (2026)</h3>
+                <div class="city-grid">
+                    <div class="city-card" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white;">
+                        <div class="city-name" style="color: #fff;">Las Vegas</div>
+                        <div class="city-count" style="color: #ff6b6b;">8</div>
+                        <div style="font-size: 11px; color: rgba(255,255,255,0.8);">Metallica @ Sphere</div>
+                        <div style="font-size: 10px; color: rgba(255,255,255,0.6); margin-top: 4px;">Oct 1, 3, 15, 17, 22, 24, 29, 31</div>
+                    </div>
+                    <div class="city-card">
+                        <div class="city-name">DC</div>
+                        <div class="city-count">1</div>
+                        <div style="font-size: 11px; color: #86868b;">Foo Fighters</div>
+                        <div style="font-size: 10px; color: #86868b; margin-top: 4px;">Aug 17</div>
+                    </div>
+                    <div class="city-card">
+                        <div class="city-name">New York</div>
+                        <div class="city-count">2</div>
+                        <div style="font-size: 11px; color: #86868b;">GNR, Rachel</div>
+                        <div style="font-size: 10px; color: #86868b; margin-top: 4px;">Mar 20-28, Aug 12</div>
+                    </div>
+                    <div class="city-card">
+                        <div class="city-name">Paris</div>
+                        <div class="city-count">4</div>
+                        <div style="font-size: 11px; color: #86868b;">Foo, GNR, Def Leppard</div>
+                        <div style="font-size: 10px; color: #86868b; margin-top: 4px;">Jun 19, Jul 1, 3 & 8</div>
+                    </div>
+                    <div class="city-card">
+                        <div class="city-name">Vienna</div>
+                        <div class="city-count">2</div>
+                        <div style="font-size: 11px; color: #86868b;">Foo Fighters, Wolf Alice</div>
+                        <div style="font-size: 10px; color: #86868b; margin-top: 4px;">Jul 3, 19</div>
+                    </div>
+                    <div class="city-card">
+                        <div class="city-name">Miami</div>
+                        <div class="city-count">2</div>
+                        <div style="font-size: 11px; color: #86868b;">GNR, Rachel</div>
+                        <div style="font-size: 10px; color: #86868b; margin-top: 4px;">Apr 18-19, May 5</div>
+                    </div>
+                    <div class="city-card">
+                        <div class="city-name">London</div>
+                        <div class="city-count">5</div>
+                        <div style="font-size: 11px; color: #86868b;">Metallica, Wolf, GNR</div>
+                        <div style="font-size: 10px; color: #86868b; margin-top: 4px;">Mar 11, 29; Jun 12; Jul 3, 5</div>
+                    </div>
+                </div>
+
+</div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+                    <div class="goal-section">
+                        <div class="goal-title">🌍 Trip Opportunity</div>
+                        <div class="goal-value" style="line-height: 1.5;">
+                            <strong>Europe July Tour:</strong><br>
+                            📍 Paris (Jul 1-3): Guns N' Roses<br>
+                            📍 Vienna (Jul 3): Foo Fighters<br>
+                            📍 London (Jul 3-5): Metallica + Wolf Alice<br>
+                            📍 Paris (Jul 8): Def Leppard<br>
+                            📍 Vienna (Jul 19): Wolf Alice
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">🏒 Capitals Home Games (March)</h3>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <div style="font-size: 13px; padding: 8px; background: #c8102e; color: white; border-radius: 6px;">
+                                <strong>Tue 3</strong> vs UTA • 7 PM
+                            </div>
+                            <div style="font-size: 13px; padding: 8px; background: #c8102e; color: white; border-radius: 6px;">
+                                <strong>Mon 9</strong> vs CGY • 7 PM
+                            </div>
+                            <div style="font-size: 13px; padding: 8px; background: #c8102e; color: white; border-radius: 6px;">
+                                <strong>Wed 18</strong> vs OTT • 7:30 PM
+                            </div>
+                            <div style="font-size: 13px; padding: 8px; background: #c8102e; color: white; border-radius: 6px;">
+                                <strong>Fri 20</strong> vs NJD • 7 PM
+                            </div>
+                            <div style="font-size: 13px; padding: 8px; background: #c8102e; color: white; border-radius: 6px;">
+                                <strong>Sun 22</strong> vs COL • 12:30 PM
+                            </div>
+                            <div style="font-size: 13px; padding: 8px; background: #c8102e; color: white; border-radius: 6px;">
+                                <strong>Tue 31</strong> vs PHI • 7 PM
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">DC Venues to Check</h3>
+                <ul class="link-list">
+                    <li>
+                        <a href="https://www.bandsintown.com/v/10163450-capital-one-arena" target="_blank" class="venue-link">
+                            <span class="venue-icon">🏟️</span>
+                            <span>Capital One Arena</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.bandsintown.com/v/10002049-9:30-club" target="_blank" class="venue-link">
+                            <span class="venue-icon">🎸</span>
+                            <span>9:30 Club</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.bandsintown.com/v/10009448-the-anthem" target="_blank" class="venue-link">
+                            <span class="venue-icon">🎤</span>
+                            <span>The Anthem</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.bandsintown.com/v/10001892-dc-improv" target="_blank" class="venue-link">
+                            <span class="venue-icon">😂</span>
+                            <span>DC Improv</span>
+                        </a>
+                    </li>
+                </ul>
+                <p style="font-size: 12px; color: #86868b; margin-top: 12px;">
+                    Monthly check scheduled for 1st of each month
+                </p>
+            </div>
+        </div>
+                
+            </div>
+        
+        <!-- Fashion Section (Full Width) -->
+        <div class="card" style="margin-bottom: 20px;">
+            <div class="card-header">
+                <span class="card-icon">👔</span>
+                <div>
+                    <div class="card-title">Fashion</div>
+                    <div style="font-size: 13px; color: #86868b;">Outfit Selection</div>
+                </div>
+            </div>
+            
+            <div style="margin-bottom: 24px;">
+                <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 12px;">Next Event Outfit</h3>
+                <div style="background: #f5f5f7; padding: 20px; border-radius: 8px;">
+                    <div style="font-size: 16px; font-weight: 500; margin-bottom: 16px;">Casual Grey #1</div>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px;">
+                        <div>
+                            <div style="width: 100%; height: 180px; background: #f0f0f0; border-radius: 6px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                                <img src="fashion-items/allsaints-grey-sweater.webp" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                            </div>
+                            <div style="font-size: 12px; margin-top: 4px; color: #86868b;">All Saints Sweater</div>
+                        </div>
+                        <div>
+                            <div style="width: 100%; height: 180px; background: #f0f0f0; border-radius: 6px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                                <img src="fashion-items/allsaints-black-jeans.webp" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                            </div>
+                            <div style="font-size: 12px; margin-top: 4px; color: #86868b;">All Saints Jeans</div>
+                        </div>
+                        <div>
+                            <div style="width: 100%; height: 180px; background: #f0f0f0; border-radius: 6px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                                <img src="fashion-items/oro-black-boots.webp" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                            </div>
+                            <div style="font-size: 12px; margin-top: 4px; color: #86868b;">Oro Boots</div>
+                        </div>
+                    </div>
+                    <div style="font-size: 13px; color: #86868b;">
+                        Occasion: Casual • Season: Fall, Winter
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-bottom: 16px;">
+                <a href="https://kimaniclark.github.io/wardrobe-dashboard/" target="_blank" style="display: block; padding: 20px; background: linear-gradient(135deg, #6366f1 0%, #818cf8 100%); border-radius: 10px; text-align: center; text-decoration: none; color: white; font-weight: 600; font-size: 16px; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);">
+                    <div style="font-size: 28px; margin-bottom: 8px;">👔</div>
+                    <div>Open Fashion Dashboard</div>
+                    <div style="font-size: 12px; opacity: 0.9; margin-top: 4px;">96 items • Outfit Builder • Analytics</div>
+                </a>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <a href="https://kimaniclark.github.io/wardrobe-dashboard/#wardrobe" target="_blank" style="display: block; padding: 16px; background: white; border: 2px solid #e5e5e7; border-radius: 8px; text-align: center; text-decoration: none; color: #1d1d1f; font-weight: 500; transition: border-color 0.2s;">
+                    <div style="font-size: 24px; margin-bottom: 8px;">👕</div>
+                    <div>View All Clothes</div>
+                    <div style="font-size: 12px; color: #86868b; margin-top: 4px;">96 items</div>
+                </a>
+                <a href="https://kimaniclark.github.io/wardrobe-dashboard/#outfits" target="_blank" style="display: block; padding: 16px; background: white; border: 2px solid #e5e5e7; border-radius: 8px; text-align: center; text-decoration: none; color: #1d1d1f; font-weight: 500; transition: border-color 0.2s;">
+                    <div style="font-size: 24px; margin-bottom: 8px;">✨</div>
+                    <div>Build Outfits</div>
+                    <div style="font-size: 12px; color: #86868b; margin-top: 4px;">Drag & drop</div>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Fitness Section (Full Width) -->
+        <div class="card" style="margin-bottom: 20px;">
+            <div class="card-header">
+                <span class="card-icon">🏋️</span>
+                <div>
+                    <div class="card-title">Fitness</div>
+                    <div style="font-size: 13px; color: #86868b;">Weekly Activity Goals & Body Composition</div>
+                </div>
+            </div>
+            
+            <div style="margin-bottom: 24px;">
+                <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 12px;">Body Composition</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div class="metric">
+                        <div class="metric-label">Body Fat %</div>
+                        <div class="metric-value metric-small">19.5%</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 49%; background: #86868b;"></div>
+                        </div>
+                        <div style="font-size: 12px; color: #86868b; margin-top: 4px;">
+                            Target: 10% (9.5% to go)
+                        </div>
+                    </div>
+                    
+                    <div class="metric">
+                        <div class="metric-label">Weight</div>
+                        <div class="metric-value metric-small">190.7 lb</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%; background: #0066cc;"></div>
+                        </div>
+                        <div style="font-size: 12px; color: #86868b; margin-top: 4px;">
+                            Stable ✓
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-bottom: 24px;">
+                <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 12px;">This Week's Activity</h3>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                    <!-- Working Out -->
+                    <div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                            <div style="font-size: 14px; font-weight: 500;">💪 Working Out</div>
+                            <div style="font-size: 13px; color: #86868b;">1 / 2</div>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <div style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid #34c759; display: flex; align-items: center; justify-content: center; background: #34c759;">
+                                <span style="font-size: 20px; color: white;">✓</span>
+                            </div>
+                            <div style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid #e5e5e7; display: flex; align-items: center; justify-content: center; background: white;">
+                                <span style="font-size: 20px; color: #d1d1d6;">○</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Jiu Jitsu -->
+                    <div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                            <div style="font-size: 14px; font-weight: 500;">🥋 Jiu Jitsu</div>
+                            <div style="font-size: 13px; color: #86868b;">1 / 2</div>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <div style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid #34c759; display: flex; align-items: center; justify-content: center; background: #34c759;">
+                                <span style="font-size: 20px; color: white;">✓</span>
+                            </div>
+                            <div style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid #e5e5e7; display: flex; align-items: center; justify-content: center; background: white;">
+                                <span style="font-size: 20px; color: #d1d1d6;">○</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Running -->
+                    <div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                            <div style="font-size: 14px; font-weight: 500;">🏃 Running</div>
+                            <div style="font-size: 13px; color: #86868b;">0 / 2</div>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <div style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid #e5e5e7; display: flex; align-items: center; justify-content: center; background: white;">
+                                <span style="font-size: 20px; color: #d1d1d6;">○</span>
+                            </div>
+                            <div style="width: 48px; height: 48px; border-radius: 50%; border: 2px solid #e5e5e7; display: flex; align-items: center; justify-content: center; background: white;">
+                                <span style="font-size: 20px; color: #d1d1d6;">○</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="padding: 12px; background: #f5f5f7; border-radius: 8px; font-size: 12px; color: #86868b;">
+                <strong>This week:</strong> Mon Mar 9 - Sun Mar 15, 2026<br>
+                <strong>Data source:</strong> Withings (body composition)<br>
+                <strong>Activity tracking:</strong> Manual update after each session<br>
+                <strong>Last updated:</strong> Mar 11, 2026
+            </div>
+        </div>
+        
+        <!-- Grid for Cars and Health -->
+        <div class="grid">
+            <!-- Cars Section -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🚗</span>
+                    <div>
+                        <div class="card-title">Car</div>
+                        <div style="font-size: 13px; color: #86868b;">2014 BMW i8</div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 24px;">
+                    <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 12px; color: #c62828;">
+                        Overdue Maintenance <span class="badge badge-overdue">6 items</span>
+                    </h3>
+                    <div class="status-item">
+                        <div class="status-label">Oil Service - Synthetic</div>
+                        <div class="status-value">3 months overdue</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">Brake Fluid Service</div>
+                        <div class="status-value">12 months overdue</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">Cabin Filter Service</div>
+                        <div class="status-value">24 months overdue</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">Air Filter Service</div>
+                        <div class="status-value">12 months overdue</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">Windshield Wipers</div>
+                        <div class="status-value">13 months overdue</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">Vehicle Inspection</div>
+                        <div class="status-value">2,250 miles overdue</div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 12px;">
+                        Upcoming Actions <span class="badge badge-pending">3 items</span>
+                    </h3>
+                    <div class="status-item">
+                        <div class="status-label">Schedule Maintenance</div>
+                        <div class="status-value">George's Foreign Auto - Jack (703) 684-2002</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">DC Emissions Renewal</div>
+                        <div class="status-value">Research location + cost</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">Insurance Shopping</div>
+                        <div class="status-value">Progressive $400+/mo → find cheaper</div>
+                    </div>
+                </div>
+                
+                <div class="goal-section">
+                    <div class="goal-title">📅 Scheduled Reminder</div>
+                    <div class="goal-value">March 2, 2026 - Handle all car tasks</div>
+                </div>
+            </div>
+            
+            <!-- Health Section -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">💪</span>
+                    <div>
+                        <div class="card-title">Health</div>
+                        <div style="font-size: 13px; color: #86868b;">Medical Metrics</div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 24px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div class="metric">
+                            <div class="metric-label">Sleep (Avg)</div>
+                            <div class="metric-value metric-small">5h 43m</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 71%; background: #86868b;"></div>
+                            </div>
+                            <div style="font-size: 12px; color: #86868b; margin-top: 4px;">
+                                Target: 8h (2h 17m to go)
+                            </div>
+                        </div>
+                        
+                        <div class="metric">
+                            <div class="metric-label">Sleep Debt</div>
+                            <div class="metric-value metric-small">8.7h</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 31%; background: #ff9500;"></div>
+                            </div>
+                            <div style="font-size: 12px; color: #86868b; margin-top: 4px;">
+                                From Rise Sleep app • ↓19.7h total (started 28.4h)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 24px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div class="metric">
+                            <div class="metric-label">Testosterone</div>
+                            <div class="metric-value metric-small">539 ng/dL</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 72%;"></div>
+                            </div>
+                            <div style="font-size: 12px; color: #86868b; margin-top: 4px;">
+                                Target: 750 ng/dL (211 to go)
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 24px;">
+                    <div class="metric">
+                        <div class="metric-label">A1C (Blood Sugar)</div>
+                        <div class="metric-value metric-small">6.1%</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 55%; background: #ff3b30;"></div>
+                        </div>
+                        <div style="font-size: 12px; color: #86868b; margin-top: 4px;">
+                            Target: 5.6% (0.5% to go)
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 24px;">
+                    <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 12px;">Remedy Plan</h3>
+                    <div class="status-item">
+                        <div class="status-label">For Testosterone ⬆️</div>
+                        <div class="status-value">Take DHEA supplement</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">For Blood Sugar ⬇️</div>
+                        <div class="status-value">Use Lingo glucose sensor</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">For Sleep ⬆️</div>
+                        <div class="status-value">Early Bedtime (Midnight target)</div>
+                    </div>
+                </div>
+                
+                <div class="goal-section">
+                    <div class="goal-title">Next Action</div>
+                    <div class="goal-value">🩺 Get blood test</div>
+                </div>
+                
+                <div style="margin-top: 16px; padding: 12px; background: #f5f5f7; border-radius: 8px; font-size: 12px; color: #86868b;">
+                    <strong>Data source:</strong> Withings app + LifeForce labs<br>
+                    <strong>Update frequency:</strong> Weekly<br>
+                    <strong>Last lab test:</strong> Aug 30, 2024 (LifeForce)
+                </div>
+            </div>
+        </div>
+        
+        <!-- Travel Section (Full Width) -->
+        <div class="card" style="margin-bottom: 20px;">
+            <div class="card-header">
+                <span class="card-icon">✈️</span>
+                <div>
+                    <div class="card-title">Travel</div>
+                    <div style="font-size: 13px; color: #86868b;">Upcoming Trips & Dream Destinations</div>
+                </div>
+            </div>
+            
+            <!-- Next Planned Trip -->
+            <div style="margin-bottom: 24px;">
+                <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 12px; color: #86868b;">📍 Next Planned Trip</h3>
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 24px; border-radius: 12px; color: white;">
+                    <div style="font-size: 20px; font-weight: 600; margin-bottom: 8px;">Germany 🇩🇪</div>
+                    <div style="font-size: 16px; margin-bottom: 12px; opacity: 0.9;">Metallica M72 World Tour</div>
+                    <div style="font-size: 14px; opacity: 0.8; margin-bottom: 16px;">
+                        🎸 May 22 & 24 - Frankfurt (Deutsche Bank Park)<br>
+                        🎸 May 30 - Berlin (Olympiastadion)
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 12px; border-radius: 8px; font-size: 13px;">
+                        <strong>Status:</strong> Invited • <strong>Contact:</strong> Kristin Sakowski (travel agent)
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dream Destination -->
+            <div>
+                <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 12px;">🌟 Desired Destination</h3>
+                <a href="https://www.wander.com/property/wander-orford-cliffs" target="_blank" style="display: block; text-decoration: none; color: inherit; background: #f5f5f7; border-radius: 12px; overflow: hidden; transition: transform 0.2s;">
+                    <div style="height: 240px; background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800') center/cover;">
+                    </div>
+                    <div style="padding: 20px;">
+                        <div style="font-size: 18px; font-weight: 600; margin-bottom: 4px;">Port Orford, Oregon</div>
+                        <div style="font-size: 14px; color: #86868b; margin-bottom: 12px;">Wander Orford Cliffs</div>
+                        <div style="font-size: 13px; color: #06c;">View Property →</div>
+                    </div>
+                </a>
+            </div>
+            
+            <div style="margin-top: 16px; padding: 12px; background: #f5f5f7; border-radius: 8px; font-size: 12px; color: #86868b;">
+                <strong>Travel agent:</strong> Kristin Sakowski (Lily Pond Travel Agency)<br>
+                <strong>Packing:</strong> Natalia schedules 1-2 days before departure
+            </div>
+        </div>
+        
+        <!-- Home/Condo Section (Full Width) -->
+        <div class="card" style="margin-bottom: 20px;">
+            <div class="card-header">
+                <span class="card-icon">🏠</span>
+                <div>
+                    <div class="card-title">Home</div>
+                    <div style="font-size: 13px; color: #86868b;">Repairs, Projects & Maintenance</div>
+                </div>
+            </div>
+            
+            <!-- Current Repairs -->
+            <div style="margin-bottom: 24px;">
+                <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 12px; color: #34c759;">🔧 Current Repairs</h3>
+                <div style="background: #f0fff4; padding: 20px; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 24px; margin-bottom: 8px;">✅</div>
+                    <div style="font-size: 14px; color: #34c759; font-weight: 500;">No active repairs</div>
+                    <div style="font-size: 12px; color: #86868b; margin-top: 4px;">Front door handle fixed Feb 26, 2026</div>
+                </div>
+            </div>
+            
+            <!-- Upcoming Projects -->
+            <div style="margin-bottom: 24px;">
+                <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 12px; color: #86868b;">📦 Upcoming Projects</h3>
+                <div style="background: #f5f5f7; padding: 16px; border-radius: 8px;">
+                    <div style="font-size: 15px; font-weight: 600; margin-bottom: 4px;">Gym Equipment Removal</div>
+                    <div style="font-size: 13px; color: #86868b; margin-bottom: 8px;">eBay sales project to clear out bedroom</div>
+                    <div style="font-size: 14px; color: #1d1d1f;">
+                        🔧 <strong>Status:</strong> Managing in-house<br>
+                        📦 <strong>Active Listings:</strong> 7 items on eBay
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Maintenance Schedule -->
+            <div>
+                <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 12px; color: #0066cc;">📋 Maintenance Schedule</h3>
+                <div style="background: #f5f5f7; padding: 20px; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 32px; margin-bottom: 8px;">📅</div>
+                    <div style="font-size: 14px; color: #86868b;">No upcoming maintenance scheduled</div>
+                    <div style="font-size: 12px; color: #86868b; margin-top: 4px;">Will be added as maintenance items are identified</div>
+                </div>
+            </div>
+            
+            <!-- Home Concierge Dashboard Link -->
+            <div style="margin-top: 20px; margin-bottom: 16px;">
+                <a href="home-concierge.html" target="_blank" style="display: block; padding: 20px; background: linear-gradient(135deg, #10b981 0%, #34d399 100%); border-radius: 10px; text-align: center; text-decoration: none; color: white; font-weight: 600; font-size: 16px; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);">
+                    <div style="font-size: 28px; margin-bottom: 8px;">🏠</div>
+                    <div>Open Home Concierge Dashboard</div>
+                    <div style="font-size: 12px; opacity: 0.9; margin-top: 4px;">Appliances • Maintenance • Training Guides</div>
+                </a>
+            </div>
+            
+            <div style="padding: 12px; background: #f5f5f7; border-radius: 8px; font-size: 12px; color: #86868b;">
+                <strong>Home assistant:</strong> Natalia Lopez (+1 571-214-6676)<br>
+                <strong>Managed via:</strong> Asana task board
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px; padding: 20px; color: #86868b; font-size: 13px;">
+            <p>This dashboard tracks 7 of 20+ life areas</p>
+            <p style="margin-top: 8px;">Entertainment • Travel • Home • Fashion • Fitness • Health • Car</p>
+            <p style="margin-top: 8px;">More areas will be added as we work through them together</p>
+        </div>
+    </div>
+</body>
+</html>
