@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     // Image base path
-    const imgBasePath = '../clothing-pics/';
+    const imgBasePath = 'images/';
     
     // Initialize
     init();
