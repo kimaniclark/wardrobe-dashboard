@@ -97,7 +97,9 @@ const wardrobeData = {
     {"id": 93, "image": "part2_image42.jpeg", "brand": "UNDER ARMOUR", "category": "joggers", "color": "gray", "style": ["athletic"]},
     {"id": 94, "image": "part2_image43.jpeg", "brand": "ZARA", "category": "sweatpants", "color": "cream", "style": ["casual", "athletic"]},
     {"id": 95, "image": "part2_image44.jpeg", "brand": "YOUNGLA", "category": "sweatpants", "color": "black", "style": ["athletic"]},
-    {"id": 96, "image": "part2_image45.jpeg", "brand": "ROBERT BARAKETT", "category": "polo", "color": "black", "style": ["smart-casual"]}
+    {"id": 96, "image": "part2_image45.jpeg", "brand": "ROBERT BARAKETT", "category": "polo", "color": "black", "style": ["smart-casual"]},
+    {"id": 97, "image": "manssion_necklace.jpg", "brand": "MANSSION", "category": "necklace", "color": "silver", "style": ["casual", "smart-casual"]},
+    {"id": 98, "image": "manssion_bracelet.jpg", "brand": "MANSSION", "category": "bracelet", "color": "silver", "style": ["casual", "smart-casual"]}
   ]
 }
 ;
