@@ -328,19 +328,74 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
+            // Generate outfit name
             const savedOutfits = JSON.parse(localStorage.getItem('savedOutfits') || '[]');
+            const outfitNumber = savedOutfits.length + 1;
+            
+            // Find the top item (prioritize outerwear, then top)
+            const topItem = currentOutfit.outerwear || currentOutfit.top;
+            let outfitName = `${outfitNumber}. `;
+            
+            if (topItem) {
+                const color = topItem.color || 'Unknown';
+                const brand = topItem.brand || 'Unknown';
+                const category = formatCategory(topItem.category);
+                outfitName += `${color.charAt(0).toUpperCase() + color.slice(1)} ${brand} ${category}`;
+            } else {
+                outfitName += 'Outfit';
+            }
+            
             savedOutfits.push({
                 id: Date.now(),
+                name: outfitName,
                 items: outfitItems.map(i => i.id),
                 createdAt: new Date().toISOString()
             });
             localStorage.setItem('savedOutfits', JSON.stringify(savedOutfits));
             
             renderSavedOutfits();
-            alert('Outfit saved!');
+            alert(`Outfit saved as "${outfitName}"!`);
         });
         
+        // Add naming for existing outfits without names
+        updateExistingOutfitNames();
         renderSavedOutfits();
+    }
+    
+    function updateExistingOutfitNames() {
+        const savedOutfits = JSON.parse(localStorage.getItem('savedOutfits') || '[]');
+        let updated = false;
+        
+        savedOutfits.forEach((outfit, index) => {
+            if (!outfit.name) {
+                const outfitItems = outfit.items.map(id => items.find(i => i.id === id)).filter(Boolean);
+                const outfitNumber = index + 1;
+                
+                // Find the top item (prioritize outerwear, then any top)
+                const topItem = outfitItems.find(item => 
+                    categoryGroups.outerwear.includes(item.category) || 
+                    categoryGroups.tops.includes(item.category)
+                );
+                
+                let outfitName = `${outfitNumber}. `;
+                
+                if (topItem) {
+                    const color = topItem.color || 'Unknown';
+                    const brand = topItem.brand || 'Unknown';
+                    const category = formatCategory(topItem.category);
+                    outfitName += `${color.charAt(0).toUpperCase() + color.slice(1)} ${brand} ${category}`;
+                } else {
+                    outfitName += 'Outfit';
+                }
+                
+                outfit.name = outfitName;
+                updated = true;
+            }
+        });
+        
+        if (updated) {
+            localStorage.setItem('savedOutfits', JSON.stringify(savedOutfits));
+        }
     }
     
     function renderSavedOutfits() {
@@ -353,18 +408,38 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         container.innerHTML = '';
-        savedOutfits.forEach(outfit => {
+        savedOutfits.forEach((outfit, index) => {
             const outfitItems = outfit.items.map(id => items.find(i => i.id === id)).filter(Boolean);
             
             const div = document.createElement('div');
             div.className = 'saved-outfit-card';
-            div.style.cssText = 'background: var(--bg-card); border-radius: var(--radius-md); padding: 12px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;';
+            div.style.cssText = 'background: var(--bg-card); border-radius: var(--radius-md); padding: 12px; cursor: pointer; transition: transform 0.2s ease;';
+            
+            // Add outfit name
+            const nameDiv = document.createElement('div');
+            nameDiv.style.cssText = 'font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--text-primary);';
+            nameDiv.textContent = outfit.name || `Outfit ${index + 1}`;
+            div.appendChild(nameDiv);
+            
+            // Add images grid
+            const imagesDiv = document.createElement('div');
+            imagesDiv.style.cssText = 'display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;';
             
             outfitItems.slice(0, 4).forEach(item => {
                 const img = document.createElement('img');
                 img.src = imgBasePath + item.image;
                 img.style.cssText = 'width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 4px;';
-                div.appendChild(img);
+                imagesDiv.appendChild(img);
+            });
+            
+            div.appendChild(imagesDiv);
+            
+            // Add hover effect
+            div.addEventListener('mouseenter', () => {
+                div.style.transform = 'translateY(-2px)';
+            });
+            div.addEventListener('mouseleave', () => {
+                div.style.transform = 'translateY(0)';
             });
             
             container.appendChild(div);
