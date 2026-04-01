@@ -269,7 +269,7 @@ body {
     width: 100%;
     aspect-ratio: 1;
     object-fit: cover;
-    background: #f5f5f5;
+    background: #ffffff;
 }
 
 .wardrobe-item-info {
@@ -428,6 +428,7 @@ body {
     width: 100%;
     aspect-ratio: 1;
     object-fit: cover;
+    background: #ffffff;
 }
 
 .picker-item.dragging {
@@ -656,7 +657,7 @@ body {
     width: 100%;
     max-height: 400px;
     object-fit: contain;
-    background: #f5f5f5;
+    background: #ffffff;
 }
 
 .modal-info {
