@@ -99,7 +99,9 @@ const wardrobeData = {
     {"id": 95, "image": "part2_image44.jpeg", "brand": "YOUNGLA", "category": "sweatpants", "color": "black", "style": ["athletic"]},
     {"id": 96, "image": "part2_image45.jpeg", "brand": "ROBERT BARAKETT", "category": "polo", "color": "black", "style": ["smart-casual"]},
     {"id": 97, "image": "manssion_necklace.jpg", "brand": "MANSSION", "category": "necklace", "color": "silver", "style": ["casual", "smart-casual"]},
-    {"id": 98, "image": "manssion_bracelet.jpg", "brand": "MANSSION", "category": "bracelet", "color": "silver", "style": ["casual", "smart-casual"]}
+    {"id": 98, "image": "manssion_bracelet.jpg", "brand": "MANSSION", "category": "bracelet", "color": "silver", "style": ["casual", "smart-casual"]},
+    {"id": 99, "image": "gracie_jiu_jitsu_sweatpants.jpg", "brand": "GRACIE JIU-JITSU", "category": "sweatpants", "color": "black", "style": ["athletic", "casual"]},
+    {"id": 100, "image": "youngla_olive_gray_tshirt.jpg", "brand": "YOUNGLA", "category": "t-shirt", "color": "olive-gray", "style": ["athletic", "casual"]}
   ]
 }
 ;
